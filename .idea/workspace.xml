@@ -52,8 +52,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
+            <state relative-caret-position="194">
+              <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
             </state>
           </provider>
         </entry>
@@ -107,7 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>value</find>
       <find>selec</find>
       <find>.on</find>
       <find>metho</find>
@@ -137,6 +136,7 @@
       <find>console</find>
       <find>br</find>
       <find>console.log</find>
+      <find>listen</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -313,12 +313,12 @@
       <workItem from="1568496279628" duration="25334000" />
       <workItem from="1569148207620" duration="8790000" />
       <workItem from="1569157251021" duration="34988000" />
-      <workItem from="1569504151703" duration="984000" />
+      <workItem from="1569504151703" duration="1383000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="160524000" />
+    <option name="totallyTimeSpent" value="160923000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -584,8 +584,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="119" lean-forward="true" selection-start-line="119" selection-end-line="119" />
+        <state relative-caret-position="194">
+          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
         </state>
       </provider>
     </entry>

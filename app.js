@@ -68,7 +68,7 @@ app.use("/", indexRoute);
 app.use("/players", playersRoute);
 app.use("/team", teamRoute);
 
-var server = app.listen(3000, function () {
+var server = app.listen(process.env.PORT, process.env.IP, function () {
     console.log("Server is running.");
 });
 
