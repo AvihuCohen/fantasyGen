@@ -10,7 +10,6 @@ var express = require("express"),
     middleware = require("./middleware"),
 
 
-
 // AUTH
     passport = require("passport"),
     localStrategy = require("passport-local"),
@@ -28,7 +27,7 @@ var indexRoute = require("./routes/index"),
     playersRoute = require("./routes/players"),
     teamRoute = require("./routes/team");
 
-var  currentUser;
+var currentUser;
 // {useNewUrlParser: true, useFindAndModify: false}
 mongoose.connect("mongodb+srv://fantasyGen:a123456@cluster0-hhidd.mongodb.net/fantasy_db?retryWrites=true&w=majority");
 app.use(bodyParser.urlencoded({extended: true}));
