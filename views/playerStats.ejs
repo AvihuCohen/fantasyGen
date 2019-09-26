@@ -1,0 +1,53 @@
+<% include partials/header %>
+
+
+
+<!-- 	name: String,
+	team: String,
+	position: String,
+	price: Number,
+	points: Number,
+	imageURL: String -->
+
+<table class="table table-striped playersTable">
+  <thead>
+    <tr>
+      <th scope="col">Full Name</th>
+      <th scope="col">Position</th>
+      <th scope="col">Team</th>
+      <th scope="col">Price</th>
+      <th scope="col">Total Points</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+<% players.forEach(function(player){ %>
+	<tr>
+		<td>
+			<img class="playerImage" src="<%= player.imageURL %>"> <%= player.name %>
+		</td>
+
+		<td class="align-middle">
+				<%= player.position %> 
+		</td>
+		<td class="align-middle">
+			<%= player.team %> 
+		</td>
+
+		<td class="align-middle">
+			<%= player.price %> 
+		</td>
+		<td class="align-middle">
+			<%= player.points %>
+		</td>
+	</tr>
+
+<% }); %>
+
+  </tbody>
+</table>
+
+
+
+<% include partials/footer %>

@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+
+<div class="row">
+<div id="loginContainer" class="container mt-5 p-4">
+	<h1>Login:</h1>
+
+	<form action="/login" method="post">
+		<div class="form-group">
+			<input class="form-control" type="text" name="username" placeholder="username">
+		</div>
+
+		<div class="form-group">
+			<input class="form-control" type="password" name="password" placeholder="password">
+		</div>
+
+		<div class="form-group">
+			<button class="btn btn-lg btn-primary btn-block">Sign in</button>
+		</div>
+	</form>
+</div>
+</div>
+
+<% include partials/footer %>

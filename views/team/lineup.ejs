@@ -1,0 +1,103 @@
+<% include ../partials/header %>
+
+
+<%
+var amountOfCurrentPos = 0;
+var amountOfGKs = 2;
+var amountOfDEFs = 5;
+var amountOfMIDs = 5;
+var amountOfATKs = 3;
+var currentPos = "";
+var currentPositionPlayers
+var counter = 0;
+%>
+
+<div class="row">
+    <div class="col-9 px-0">
+
+        <div class="container newTeamContainer py-4 px-0">
+
+            <% for(var j = 0; j < 4; j++) { %>
+
+                <% if (j === 3) {
+                    amountOfCurrentPos = 1;
+                    currentPos = "Goalkeeper";
+                    currentPositionPlayers = lineup.Goalkeeper;
+                } else if (j === 2) {
+                    amountOfCurrentPos = lineup.Defenders.length;
+                    currentPos = "Defender";
+                    currentPositionPlayers = lineup.Defenders;
+                } else if (j === 1) {
+                    amountOfCurrentPos = lineup.Midfielders.length;
+                    currentPos = "Midfielder";
+                    currentPositionPlayers = lineup.Midfielders;
+                } else if (j === 0) {
+                    amountOfCurrentPos = lineup.Forwards.length;
+                    currentPos = "Forward";
+                    currentPositionPlayers = lineup.Forwards;
+                } %>
+
+                <div class="row justify-content-center pb-3">
+
+                    <% for(var i = 0; i < amountOfCurrentPos; i++) { %>
+                        <div class="col-1 mx-4">
+                            <div id="card<%= counter %>" class="card playerCard">
+                                <div class="card-body text-center p-1">
+                                    <img class="playerCardImage"
+                                         src="<%= currentPositionPlayers[i].imageURL %>"
+                                         class="card-img-top">
+                                    <h5 class="card-title"><span class="nameSpan">
+                                            <% if (currentPositionPlayers[i].name.length > 15) { %>
+                                                <% var shortName = currentPositionPlayers[i].name.slice(0,13) + ".."; %>
+                                               <%= shortName %>
+                                            <% } else { %>
+                                             <%= currentPositionPlayers[i].name %>
+                                            <% } %>
+                                    </span></h5>
+                                    <p class="card-text"><span class="positionSpan"><%= currentPositionPlayers[i].position %></span></p>
+                                    <p class="card-text">Points: <span class="pointsSpan"><%= currentPositionPlayers[i].points %></span></p>
+                                    <p class="card-text">Price: <span class="priceSpan"><%= currentPositionPlayers[i].price %></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <% counter++; %>
+
+                    <% } %>
+
+                </div>
+
+            <% } %>
+
+        </div>
+    </div>
+    <div class="col-3 pl-0">
+        <div class="list-group">
+            <li class="list-group-item list-group-item-primary">Captain:</li>
+
+            <li class="list-group-item list-group-item-action list-group-item">
+                <%= lineup.Captain.name %>
+            </li>
+
+            <li class="list-group-item list-group-item-primary mt-4">Vice-Captain:</li>
+            <li class="list-group-item list-group-item-action list-group-item">
+                <%= lineup.ViceCaptain.name %>
+            </li>
+
+            <li class="list-group-item list-group-item-primary mt-4">Bench:</li>
+
+            <% for (var i = 0; i < 4; i++) { %>
+                <li class="list-group-item list-group-item-action list-group-item">
+                    <strong><%= i+1 %>.</strong> <%= lineup.Bench[i].name %>
+                </li>
+            <% } %>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<% include ../partials/footer %>

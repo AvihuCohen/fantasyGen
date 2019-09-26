@@ -1,0 +1,72 @@
+<% include partials/header %>
+
+<div id="loginContainer" class="container mt-5 p-4">
+	<h1>Register:</h1>
+
+	<form action="/register" method="post">
+		<div class="form-group">
+			<input class="form-control" type="text" name="username" placeholder="username">
+		</div>
+
+		<div class="form-group">
+			<input class="form-control" type="password" name="password" placeholder="password" pattern=".{3,15}">
+		</div>
+
+		<div class="form-group">
+			<input class="form-control" type="email" name="email" placeholder="email" required>
+		</div>
+
+		<div class="mb-2 d-flex justify-content-start align-items-center">
+			<label class="mb-0 mr-4"><strong>Gender:</strong></label>
+
+			<label class="mb-0 mr-1" for="Male">Male</label>
+			<input type="radio" name="gender" id="Male" value="Male" required>
+
+			<label class="mb-0 mr-1" for="Female">Female</label>
+			<input  type="radio" name="gender" id="Female" value="Female" required>
+
+			<label class="mb-0 mr-1" for="Other">Other</label>
+			<input type="radio" name="gender" id="Other" value="Other" required>
+		</div>
+
+		<div class="d-flex justify-content-start">
+
+		<label class="mr-2"><strong>Birthday:</strong></label>
+
+		<select required class="birthday" name="day" id="day">
+			<% for(var i = 1; i < 32; i++) { %>
+				<option value="<%= i %>"><%= i %></option>
+			<% } %>
+		</select>
+
+		<select required class="birthday" name="month" id="month">
+			<option value="1">Jan</option>
+			<option value="2">Feb</option>
+			<option value="3">Mar</option>
+			<option value="4">Apr</option>
+			<option value="5">May</option>
+			<option value="6">Jun</option>
+			<option value="7">Jul</option>
+			<option value="8">Aug</option>
+			<option value="9">Sep</option>
+			<option value="10">Oct</option>
+			<option value="11">Nov</option>
+			<option value="12">Dec</option>
+		</select>
+
+		<select required class="birthday" name="year" id="year">
+			<% for(var i = 2019; i > 1950; i--) { %>
+				<option value="<%= i %>"><%= i %></option>
+			<% } %>
+		</select>
+		</div>
+
+
+		<div class="form-group mt-3">
+			<button class="btn btn-lg btn-primary btn-block">Register</button>
+		</div>
+	</form>
+</div>
+
+
+<% include partials/footer %>

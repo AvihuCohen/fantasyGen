@@ -1,0 +1,38 @@
+body{
+	background: url(https://a.espncdn.com/photo/2017/0808/0808_youngplayers2_2000x1000.jpg);
+	background-size: cover;
+	background-position: top;
+	background-position: 0 -10%;
+	background-repeat: no-repeat;
+}
+
+
+
+#landingJumbo{
+	background-color: rgb(200,200,200,0.75);
+	background-size: 60%;
+	background-position: center;
+}
+
+.articlesContainer{
+	background-color: rgb(200,200,200,0.55);
+	border-radius: 10%;
+}
+
+#landingLeft, #landingRight{
+	background-color: rgb(200,200,200, 0.6);
+}
+
+.card-img-top{
+	max-width:100%;
+	max-height:100%;
+}
+
+#articles{
+	/*background-color: rgb(200,200,200,0.55);*/
+	/*border-radius: 10%;*/
+}
+
+.card-title{
+	font-size: 1.3rem;
+}

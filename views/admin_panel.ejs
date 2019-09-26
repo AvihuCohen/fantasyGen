@@ -1,0 +1,107 @@
+<% include partials/header %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+
+
+<div class="container pt-3 text-center">
+    <h1 class="display-3">Admin panel</h1>
+
+    <div class="row border-top border-primary pt-3">
+        <div class="col-4 border-right border-primary">
+            <h1 class="display-5">Manage users</h1>
+            <hr>
+
+            <form class="delete-form" action="/users?_method=DELETE" method="POST">
+
+                <div class="col pb-2">
+                    <select name="userID" id="usersList" size="8">
+                        <% for (var i = 0; i < users.length ; i++) { %>
+                            <% if(!(users[i]._id.equals(currentUser._id))) { %>
+                                <% if(users[i].admin === 1) { %>
+                                    <option class="bg-success btn-dark"
+                                            value="<%= users[i]._id %>"><%= users[i].username %></option>
+                                <% } else { %>
+                                    <option value="<%= users[i]._id %>"><%= users[i].username %></option>
+                                <% } %>
+
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+                <div class="col">
+                    <button id="user_makeAdmin" class="btn btn-success btn-sm">Make admin</button>
+                    <input type="submit" id="user_delete" class="btn btn-danger btn-sm mr-1" value="Delete user">
+                </div>
+            </form>
+        </div>
+
+        <div class="col-5 border-right border-primary">
+            <h1 class="display-5">Manage articles</h1>
+            <hr>
+            <div class="row pl-2">
+
+                <form class="delete-form" action="/articles?_method=DELETE" method="POST">
+
+                    <div class="col px-5">
+                        <div class="row pb-2">
+                            <select name="articleID" id="articlesList" size="8">
+                                <% for (var i = 0; i < articles.length ; i++) { %>
+                                    <option value="<%= articles[i]._id %>"><%= articles[i].title %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <button type="button" id="edit_article" class="btn btn-info btn-sm mr-1">Edit article
+                            </button>
+                            <input type="submit" id="delete_article" class="btn btn-danger btn-sm mr-1"
+                                   value="Delete article">
+                        </div>
+                    </div>
+                </form>
+                <div class="col">
+                    <a href="/articles/new" class="btn btn-sm btn-primary mr-4">Add new article</a>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <h1 class="display-5">Manage database</h1>
+            <hr>
+            <button type="button" id="update_db" class="btn btn-info btn-sm mr-1">Update database</button>
+            <hr>
+
+            <form class="delete-form" action="/updateDatabase?_method=PUT" method="POST">
+                <div class="container mb-2">
+
+                    <label>Update database:</label>
+                    <br/>
+                    <label for="dayPicker">Every:</label>
+                    <select name="dayPicker" id="dayPicker">
+                        <option selected value="*">Every day</option>
+                        <option value="0">Sunday</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                        <option value="6">Saturday</option>
+                    </select>
+
+                    <select name="hourPicker" id="hourPicker">
+                        <% for (var i = 0; i < 24; i++) { %>
+                            <option value="<%= i %>"><%= i %>:00</option>
+                        <% } %>
+                    </select>
+                </div>
+
+
+                <button id="update_db" class="btn btn-info btn-sm mr-1">Change schedule</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/admin_panel.js"></script>
+
+
+<% include partials/footer %>

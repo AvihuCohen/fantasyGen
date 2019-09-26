@@ -1,0 +1,165 @@
+.thumbnail img {
+	width: 100%;
+}
+
+.thumbnail{
+	padding: 0;
+}
+
+.thumbnail .caption-full {
+	padding: 9px;
+}
+
+.navbar{
+	margin-bottom: 0;
+	background: #0F2027;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+body{
+	font-family: 'Vollkorn', serif;
+
+	background: #4AC29A;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #BDFFF3, #4AC29A);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+
+}
+
+.delete-form {
+	display: inline;
+}
+
+#brandLogo{
+	font-size: 1.5rem;
+}
+
+#loginContainer, #registerContainer, #newArticle, #commentContainer{
+	width: 30%;
+	margin: 0 auto;
+	text-align: center;
+
+	background-color: #828282;
+	border: 2px solid #555555;
+
+}
+
+/*.comment{*/
+	/*background-color: rgb(200,200,200, 0.6);*/
+/*}*/
+
+.editUsername{
+	text-align: right;
+	float: left;
+}
+
+.editUsernameFormgroup{
+	float: left;
+}
+
+#profileContainer{
+	width: 40%;
+	margin: 0 auto;
+	text-align: center;
+ }
+
+.playerImage{
+	height: 62px;
+	width: 48px;
+	margin: 0;
+}
+
+.topCaptainsImage{
+	height: 31px;
+	width: 24px;
+	margin: 0;
+}
+
+.topPlayersTable{
+	font-size: 0.8rem;
+}
+
+.playersTable{
+	font-weight: 600;
+}
+
+th{
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+
+
+
+.playerCardImage{
+	height: 74px;
+	width: 58px;
+	margin: 0;
+	margin-bottom: 3px;
+}
+
+.playerCard {
+	border: 2px solid dimgray;
+	border-radius: 50%;
+	font-size: 0.60rem;
+	background-color: #cccccc;
+
+}
+
+.playerCard{
+	width: 88px;
+	height: 160px;
+
+}
+
+.birthday{
+	font-size: 0.8rem;
+}
+
+
+.newteamTopBar{
+	font-weight: 700;
+	background: #757F9A;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #D7DDE8, #757F9A);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #D7DDE8, #757F9A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.card-text, .card-title{
+	margin-bottom: 1px;
+}
+
+#errorDisplay{
+	display: none;
+	font-size: 1rem;
+}
+
+
+
+.card-title{
+	font-size: 0.7rem;
+}
+
+.newTeamContainer{
+	background: url(https://futhead.cursecdn.com/static/img/squad-builder/fieldbg.png);
+	background-size: cover;
+	background-position: top;
+}
+
+.dropdownPlayers{
+	width: 30px;
+}
+
+#hasNoTeamJumbotrone {
+
+
+	background: #a8c0ff;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #3f2b96, #a8c0ff);
+}
+
+#usersList, #articlesList{
+	width: 12rem;
+}

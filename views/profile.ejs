@@ -1,0 +1,63 @@
+<% include partials/header %>
+
+<div id="profileContainer" class="container mt-5">
+    <ul class="list-group mb-3">
+        <li class="list-group-item active">
+            Profile
+        </li>
+        <li class="list-group-item pl-0 ">
+            <div class="row text-center">
+                <div class="col-6">
+                    Username:
+                </div>
+                <div class="col-6">
+                    <%= currentUser.username %>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item pl-0">
+            <div class="row">
+                <div class="col-6">
+                    Email:
+                </div>
+                <div class="col-6">
+                    <%= currentUser.email %>
+                </div>
+            </div>
+        </li>
+        <li class="list-group-item pl-0">
+            <div class="row">
+                <div class="col-6">
+                    Gender:
+                </div>
+                <div class="col-6">
+                    <%= currentUser.gender %>
+                </div>
+            </div>
+        </li>
+
+        <% if(currentUser.dateOfBirth.length > 3) { %>
+            <li class="list-group-item pl-0">
+                <div class="row justify-content-around">
+                    <div class="col-6">
+                        Birthday:
+                    </div>
+                    <div class="col-6">
+                        <%= currentUser.dateOfBirth %>
+                    </div>
+                </div>
+            </li>
+        <% } %>
+    </ul>
+
+    <a class="btn btn-success btn-lg" href="/profile/edit">Edit</a>
+
+
+
+
+</div>
+
+
+
+<% include partials/footer %>
+

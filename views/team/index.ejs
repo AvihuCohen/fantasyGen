@@ -1,0 +1,91 @@
+<% include ../partials/header %>
+
+
+<!-- user has a team. -->
+<% if(currentUser.hasTeam) { %>
+
+
+    <div class="container mt-4 text-center">
+        <div id="hasNoTeamJumbotrone" class="jumbotron">
+            <h1 class="display-4">Welcome to your team page.</h1>
+            <p class="lead">
+                You can choose between:
+            </p>
+
+            <hr class="my-4">
+
+            <div class="row d-flex justify-content-around">
+                <div class="col-4">
+                    <p>
+                        Generate the ultimate lineup for the next gameweek.
+                    </p>
+                    <hr>
+                    <a class="btn btn-lg btn-warning" href="/team/generate11">Generate ultimate lineup<a>
+                </div>
+                <div class="col-4">
+                    <p>
+                        Or we can generate a full team for you. (15 players)
+                    </p>
+                    <hr>
+                    <a class="btn btn-lg btn-warning" href="/team/generate15" role="button">Generate full team</a>
+                </div>
+                <div class="col-4">
+                    <p>
+                        Edit your team. <br />
+                        <br />
+                    </p>
+
+                    <hr>
+                    <a class="btn btn-lg btn-warning" href="/team/edit" role="button">Edit team</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- user dont have a team -->
+<% } else { %>
+
+    <div class="container mt-4 text-center">
+        <div id="hasNoTeamJumbotrone" class="jumbotron">
+            <h1 class="display-4">Welcome to your team page.</h1>
+            <p class="lead">
+                You dont have a team yet.
+            </p>
+            <p>
+                You can choose between:
+            </p>
+
+            <hr class="my-4">
+
+            <div class="row d-flex justify-content-around">
+                <div class="col-6">
+                    <p>
+                        Adding your own team from EPL Fantasy
+
+                    </p>
+                    <a class="btn btn-lg btn-success mr-3" href="/team/new">Add your team</a>
+                </div>
+                <div class="col-6">
+                    <p>
+                        Or we can generate a full team for you.
+                    </p>
+                    <a class="btn btn-lg btn-success" href="/team/generate15" role="button">Generate full team</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Rodrigo Hernandez-->
+    <!--Kevin Danso-->
+    <!--Billy Gilmour-->
+    <!--João Pedro Cavaco Cancelo-->
+    <!--Ibrahim Amadou-->
+    <!--Ismaïla Sarr-->
+
+
+<% } %>
+<% include ../partials/footer %>
+

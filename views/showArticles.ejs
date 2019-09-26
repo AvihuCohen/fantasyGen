@@ -1,0 +1,55 @@
+<% include partials/header %>
+
+
+<div class="container m-3">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-respoinsive w-50 h-50" src="<%= article.image %>">
+                <hr>
+                <div class="caption-full">
+                    <h4><a><%= article.title %></a></h4>
+                    <p><%= article.content %></p>
+                    <p>
+                        <em>Submitted by: </em><%= article.author.username %>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-sm btn-success" href="/articles/<%= article._id %>/comments/new">Add new
+                        comment</a>
+                </div>
+                <% article.comments.forEach(function(comment){ %>
+                    <div class="row border-bottom border-info">
+                        <div class="col-md-12 comment m-1">
+                            <strong><%= comment.author.username %></strong>
+                            <!--<span class="pull-right">10 days ago</span>-->
+                            <p>
+                                <%= comment.text %>
+                            </p>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                <a class="btn btn-sm btn-info"
+                                   href="/articles/<%= article._id %>/comments/<%= comment._id %>/edit">
+                                    Edit
+                                </a>
+                                <form class="delete-form"
+                                      action="/articles/<%= article._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                      method="POST">
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+
+                <% }) %>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<% include partials/footer %>

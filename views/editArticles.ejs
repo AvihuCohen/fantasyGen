@@ -1,0 +1,40 @@
+<% include partials/header %>
+
+<div id="newArticle" class="container mt-3 p-2">
+    <h1>Add new article:</h1>
+    <hr>
+
+    <form action="/articles/edit/<%= article._id %>" method="post">
+        <div class="form-group m-1">
+            <label class="m-1">Title</label>
+            <input class="form-control" value="<%=article.title%>" type="text" name="title" placeholder="title" required>
+        </div>
+        <hr>
+
+        <!--<div class="form-group">-->
+        <!--<textarea class="form-control" name="article[content]" placeholder="content" required></textarea>-->
+        <!--</div>-->
+
+        <div class="form-group m-1">
+            <label class="m-1">Article content</label>
+            <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="3">
+                <%=article.content%>
+            </textarea>
+        </div>
+
+        <hr>
+
+        <div class="form-group m-1">
+            <label class="m-1">Image URL</label>
+            <input class="form-control" value="<%=article.image%>" type="url" name="imageURL" placeholder="image">
+        </div>
+
+        <hr>
+
+        <div class="form-group mt-3">
+            <button class="btn btn-lg btn-primary btn-block">Submit</button>
+        </div>
+    </form>
+</div>
+
+<% include partials/footer %>

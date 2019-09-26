@@ -1,0 +1,65 @@
+<% include partials/header %>
+
+<div id="loginContainer" class="container mt-5 p-4">
+    <h1>Edit profile:</h1>
+
+    <form action="/profile/edit" method="post">
+        <div class="form-group d-flex justify-content-start align-items-center">
+            <label for="username" class="mr-2"><strong>Username:</strong></label>
+            <input id="username" class="form-control" type="text" name="username" placeholder="username"
+                   value="<%= currentUser.username %>">
+        </div>
+
+        <div class="form-group d-flex justify-content-start align-items-center">
+            <label for="username" class="mr-2"><strong>Email:</strong></label>
+            <input class="form-control" type="email" name="email" placeholder="email" value="<%= currentUser.email %>"
+                   required>
+        </div>
+
+        <div class="d-flex justify-content-start">
+            <label class="mr-2"><strong>Birthday:</strong></label>
+
+            <%
+            var birthday = currentUser.dateOfBirth.split('/');
+            %>
+
+            <select class="birthday" name="day" id="day">
+                <% for(var i = 1; i < 32; i++) { %>
+                    <% if(birthday[0] == i) { %>
+                        <option selected value="<%= i %>"><%= i %></option>
+                    <% } else { %>
+                        <option value="<%= i %>"><%= i %></option>
+                    <% } %>
+                <% } %>
+            </select>
+
+            <select class="birthday" name="month" id="month">
+                <% for(var i = 1; i < 13; i++) { %>
+                    <% if(birthday[1] == i) { %>
+                        <option selected value="<%= i %>"><%= i %></option>
+                    <% } else { %>
+                        <option value="<%= i %>"><%= i %></option>
+                    <% } %>
+                <% } %>
+            </select>
+
+            <select class="birthday" name="year" id="year">
+                <% for(var i = 2019; i > 1950; i--) { %>
+                    <% if(birthday[2] == i) { %>
+                        <option selected value="<%= i %>"><%= i %></option>
+                    <% } else { %>
+                        <option value="<%= i %>"><%= i %></option>
+                    <% } %>
+                <% } %>
+            </select>
+        </div>
+
+
+        <div class="form-group mt-3">
+            <button class="btn btn-lg btn-primary btn-block">Submit</button>
+        </div>
+    </form>
+</div>
+
+
+<% include partials/footer %>
