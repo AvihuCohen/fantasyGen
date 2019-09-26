@@ -125,7 +125,12 @@ function updateDB() {
     console.log("1. In update DB");
     (async () => {
         const url = 'https://fantasy.premierleague.com/statistics';
-        const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+        const browser = await puppeteer.launch({
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+            ]
+        });
         const page = await browser.newPage();
         await page.goto(url);
 
