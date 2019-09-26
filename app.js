@@ -122,6 +122,7 @@ seedDB();
 ////// Global Functions
 
 function updateDB() {
+    console.log("1. In update DB");
     (async () => {
         const url = 'https://fantasy.premierleague.com/statistics';
         const browser = await puppeteer.launch();
