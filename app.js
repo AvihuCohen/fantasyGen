@@ -29,7 +29,10 @@ var indexRoute = require("./routes/index"),
 
 var currentUser;
 // {useNewUrlParser: true, useFindAndModify: false}
-mongoose.connect("mongodb+srv://fantasyGen:a123456@cluster0-hhidd.mongodb.net/fantasy_db?retryWrites=true&w=majority");
+var url = process.env.DBURL || "mongodb://localhost:27017/football_fantasy_test";
+// mongodb+srv://fantasyGen:a123456@cluster0-hhidd.mongodb.net/fantasy_db?retryWrites=true&w=majority
+
+mongoose.connect(url, {useNewUrlParser: true, useFindAndModify: false});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"))
