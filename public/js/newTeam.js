@@ -7,7 +7,6 @@ if(window.location.hostname === "localhost"){
     url = window.location.hostname;
 }
 socket = io.connect(url);
-console.log(url);
 
 var lastSelected;
 var lastPrice = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
