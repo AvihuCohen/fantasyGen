@@ -1,3 +1,7 @@
+html, body{
+	height: 100%;
+}
+
 .thumbnail img {
 	width: 100%;
 }
@@ -45,6 +49,12 @@ background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, F
 	background-color: #828282;
 	border: 2px solid #555555;
 
+}
+
+#adminPanelButton{
+	background-color: aliceblue;
+	border-radius: 2.5rem;
+	color: #ff001a;
 }
 
 /*.comment{*/

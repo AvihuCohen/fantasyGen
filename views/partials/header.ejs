@@ -2,7 +2,7 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <title>Template title</title>
+    <title>FantasyGen</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/976af45385.js"></script>
@@ -41,8 +41,8 @@
             <% } else { %>
 
                 <% if(currentUser.admin === 1) { %>
-                    <li class="nav-item active mr-5">
-                        <a class="nav-link text-danger" href="/admin"><i class="fas fa-user-tie pr-1 "></i>Admin panel</a>
+                    <li class="nav-item active">
+                        <a id="adminPanelButton" class="nav-link" href="/admin"><i class="fas fa-user-tie pr-1 "></i>Admin panel</a>
                     </li>
                 <% } %>
 
