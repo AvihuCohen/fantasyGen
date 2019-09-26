@@ -29,8 +29,8 @@ var indexRoute = require("./routes/index"),
     teamRoute = require("./routes/team");
 
 var  currentUser;
-
-mongoose.connect("mongodb://localhost:27017/football_fantasy_test", {useNewUrlParser: true, useFindAndModify: false});
+// {useNewUrlParser: true, useFindAndModify: false}
+mongoose.connect("mongodb+srv://fantasyGen:a123456@cluster0-hhidd.mongodb.net/fantasy_db?retryWrites=true&w=majority");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"))
@@ -179,26 +179,25 @@ function updateDB() {
                     imageURL: imageURL
                 };
 
-                // Create new campground and save to DB.
-                // Player.create(newPlayer, function (err, newPlayer) {
-                //     if (err) {
-                //         console.log(err);
-                //     } else {
-                //         console.log("Success!");
-                //     }
-                // });
-                await Player.findOneAndUpdate({name: fullName}, {
-                    price: newPlayer.price,
-                    points: newPlayer.points
-                }, function (err, player) {
+                Player.create(newPlayer, function (err, newPlayer) {
                     if (err) {
                         console.log(err);
                     } else {
-                        // player = newPlayer;
-                        // console.log(player);
-                        // player.save();
+                        console.log("Success!");
                     }
                 });
+                // await Player.findOneAndUpdate({name: fullName}, {
+                //     price: newPlayer.price,
+                //     points: newPlayer.points
+                // }, function (err, player) {
+                //     if (err) {
+                //         console.log(err);
+                //     } else {
+                //         // player = newPlayer;
+                //         // console.log(player);
+                //         // player.save();
+                //     }
+                // });
                 // Player.findOneAndUpdate({name: fullName}, newPlayer);
                 // console.log(newPlayer.name,newPlayer.points);
                 // console.log("Success!");
