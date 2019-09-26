@@ -3,7 +3,7 @@ body{
 	background-size: cover;
 	background-position: top;
 	background-position: 0 -10%;
-	background-repeat: no-repeat;
+	background-repeat: repeat-y;
 }
 
 .landingRow{
@@ -51,4 +51,11 @@ body{
 
 	color: #0F2027;
 	border-radius: 3rem;
+	border-top-left-radius: 1.5rem;
+	border-top-right-radius: 1.5rem;
+	opacity: 2;
+}
+
+.card:hover{
+	border: 2px solid #007bff;
 }

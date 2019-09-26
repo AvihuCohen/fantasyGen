@@ -52,12 +52,33 @@ background: linear-gradient(to right, #BDFFF3, #4AC29A); /* W3C, IE 10+/ Edge, F
 }
 
 #adminPanelButton{
-	background-color: aliceblue;
-	border-radius: 2.5rem;
-	color: #ff001a;
+	color: white;
+	transition: 1.2s;
+	border-radius: 0.5rem;
+	background: #0275d8;
 }
 
-/*.comment{*/
+#adminPanelButton:hover{
+	background: coral;
+	border-radius: 2.5rem;
+}
+
+.navbar{
+	height: 3.5rem;
+}
+
+.nav-item a{
+	transition: 0.8s;
+	border-radius: 10%;
+	background: none;
+}
+
+.nav-item a:hover{
+	background-color: #4AC29A;
+	border-radius: 50%;
+}
+
+	/*.comment{*/
 	/*background-color: rgb(200,200,200, 0.6);*/
 /*}*/
 
@@ -172,4 +193,24 @@ th{
 
 #usersList, #articlesList{
 	width: 12rem;
+}
+
+#showArticlePage{
+	background: #4AC29A;
+	border-radius: 1.2rem;
+}
+
+#commentsCol{
+	background: #4AC29A;
+	border-radius: 1.2rem;
+}
+
+.comment-bg-0{
+	background: rgb(77, 141, 176, 0.7);
+	border-radius: 0.5rem;
+}
+
+.comment-bg-1{
+	background: rgb(77, 141, 176, 0.9);
+	border-radius: 0.5rem;
 }

@@ -5,6 +5,9 @@
     <title>FantasyGen</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/976af45385.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Vollkorn:400,400i,600,600i,700,900&display=swap"
           rel="stylesheet">
@@ -12,47 +15,49 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-dark p-0 px-3">
 
-<nav class="navbar navbar-expand-lg navbar-dark">
     <a class="navbar-brand" href="/"><i id="brandLogo" class="far fa-futbol pr-1"></i> FantasyGen</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse pt-0 h-100" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link pl-4" href="/Players">Players</a>
+                <a class="nav-link ml-3" href="/Players">Players</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link pl-4" href="/team">My Team</a>
+                <a class="nav-link ml-3" href="/team">My Team</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <% if(!currentUser){ %>
                 <li class="nav-item active">
-                    <a class="nav-link pl-4" href="/login">Login</a>
+                    <a class="nav-link ml-3" href="/login">Login</a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link pl-4" href="/register">Register</a>
+                    <a class="nav-link ml-3" href="/register">Register</a>
                 </li>
 
             <% } else { %>
 
                 <% if(currentUser.admin === 1) { %>
                     <li class="nav-item active">
-                        <a id="adminPanelButton" class="nav-link" href="/admin"><i class="fas fa-user-tie pr-1 "></i>Admin panel</a>
+                        <a id="adminPanelButton" class="nav-link" href="/admin"><i
+                                    class="fas fa-user-tie pr-1 "></i>Admin
+                            panel</a>
                     </li>
                 <% } %>
 
                 <li class="nav-item active">
-                    <a class="nav-link pl-4" href="/profile"><i
+                    <a class="nav-link ml-3" href="/profile"><i
                                 class="far fa-user pr-1"></i> <%= currentUser.username %> </a>
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link pl-4" href="/logout">Sign out</a>
+                    <a class="nav-link ml-3" href="/logout">Sign out</a>
                 </li>
             <% } %>
 

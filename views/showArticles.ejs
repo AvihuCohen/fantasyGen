@@ -2,34 +2,40 @@
 
 
 <div class="container m-3">
-    <div class="row">
-        <div class="col-md-9">
+    <div class="row d-flex justify-content-between">
+        <div id="showArticlePage" class="col-8 p-2">
             <div class="thumbnail">
-                <img class="img-respoinsive w-50 h-50" src="<%= article.image %>">
+                <img class="img-respoinsive w-50 h-50 m-3" src="<%= article.image %>">
                 <hr>
                 <div class="caption-full">
-                    <h4><a><%= article.title %></a></h4>
+                    <h4 class="text-primary display-4"><a><%= article.title %></a></h4>
                     <p><%= article.content %></p>
-                    <p>
+                    <p class="text-danger">
                         <em>Submitted by: </em><%= article.author.username %>
                     </p>
                 </div>
             </div>
-            <hr>
-            <div class="well">
-                <div class="text-right">
+
+        </div>
+        <div id="commentsCol" class="col-3">
+            <div class="container pt-2">
+                <div class="text-center mb-2">
                     <a class="btn btn-sm btn-success" href="/articles/<%= article._id %>/comments/new">Add new
                         comment</a>
                 </div>
+                <hr>
+                <% var row = 0;
+                %>
                 <% article.comments.forEach(function(comment){ %>
-                    <div class="row border-bottom border-info">
-                        <div class="col-md-12 comment m-1">
+                    <div class="row mb-2">
+                        <div class="col-md-12 comment p-2 comment-bg-<%= row %>">
                             <strong><%= comment.author.username %></strong>
                             <!--<span class="pull-right">10 days ago</span>-->
-                            <p>
+                            <p class="mb-0 pb-1">
                                 <%= comment.text %>
                             </p>
                             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                                <hr>
                                 <a class="btn btn-sm btn-info"
                                    href="/articles/<%= article._id %>/comments/<%= comment._id %>/edit">
                                     Edit
@@ -42,6 +48,10 @@
                             <% } %>
                         </div>
                     </div>
+                    <%
+                        row++;
+                        row = row % 2
+                    %>
 
                 <% }) %>
             </div>
