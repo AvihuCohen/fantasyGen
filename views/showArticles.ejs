@@ -36,7 +36,7 @@
                             </p>
                             <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
                                 <hr>
-                                <a class="btn btn-sm btn-info"
+                                <a class="btn btn-sm btn-info mr-1"
                                    href="/articles/<%= article._id %>/comments/<%= comment._id %>/edit">
                                     Edit
                                 </a>

@@ -138,12 +138,7 @@ function updateDB() {
                 '--no-sandbox'
             ]
         });
-        // {
-        //     args: [
-        //         '--no-sandbox',
-        //         '--disable-setuid-sandbox'
-        //     ]
-        // }
+
         const page = await browser.newPage();
         await page.goto(url);
 
@@ -255,12 +250,10 @@ io.sockets.on("connection", function (Socket) {
                 res.redirect("back");
             } else {
                 io.sockets.emit('get_player', player);
-
             }
         });
     });
 });
-
 
 io.sockets.on("connection", function (Socket) {
     Socket.on('make_admin', function (userID) {
@@ -273,7 +266,6 @@ io.sockets.on("connection", function (Socket) {
                 io.sockets.emit('user_isAdmin');
             }
         });
-
     });
 });
 
@@ -304,7 +296,6 @@ io.sockets.on("connection", function (Socket) {
     });
 });
 
-
 function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
     // var currentUser = res.locals.currentUser;
     currentUser.hasTeam = 1;
@@ -315,19 +306,15 @@ function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
     currentUser.save();
 }
 
-
 ////////////////////////////////////////////////////////////////////////
-
 //// The next 6 methoda are for checking if team is valid  /////
 
 function validateTeamAndGetResults(playerIDs, allPlayers) {
     var chosenPlayers = getChosenPlayers(playerIDs, allPlayers);
-
     var fullteam = checkFullteam(playerIDs);
     var duplicatePlayers = checkPlayerDuplications(playerIDs);
     var moreThanThreeFromSameTeam = checkMoreThanThreeFromSameTeam(chosenPlayers);
     var exceededBudget = checkExceededBudget(chosenPlayers);
-
     var res = getValidationResults(fullteam, duplicatePlayers, moreThanThreeFromSameTeam, exceededBudget);
 
     return res;
@@ -335,7 +322,6 @@ function validateTeamAndGetResults(playerIDs, allPlayers) {
 
 function getValidationResults(fullteam, duplicatePlayers, moreThanThreeFromSameTeam, exceededBudget) {
     var isValid = fullteam && !duplicatePlayers && !moreThanThreeFromSameTeam && !exceededBudget.exceeded;
-
 
     var res = {
         valid: isValid,
@@ -354,7 +340,7 @@ function getValidationResults(fullteam, duplicatePlayers, moreThanThreeFromSameT
     return res;
 }
 
-
+// =============================================================
 //// The next 6 methoda are for checking if team is valid  /////
 
 function checkFullteam(playerIDs) {
@@ -378,7 +364,6 @@ function checkPlayerDuplications(playerIDs) {
     });
 
     let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
-
     var duplicates = findDuplicates(validPlayerIds);
     // All duplicates
     if (duplicates.length > 0) {
@@ -402,7 +387,6 @@ function checkMoreThanThreeFromSameTeam(chosenPlayers) {
             if (teamsBucket[player.team] > 3) {
                 moreThanThreeFromSameTeam = true;
             }
-
         }
     });
 
@@ -410,7 +394,6 @@ function checkMoreThanThreeFromSameTeam(chosenPlayers) {
 }
 
 function checkExceededBudget(chosenPlayers) {
-
     // TODO FIX MATH.ROUND MONEYLEFT
     var budgetExceeded = {
         exceeded: false,
@@ -430,7 +413,6 @@ function checkExceededBudget(chosenPlayers) {
     return budgetExceeded;
 }
 
-
 function getChosenPlayers(playerIDs, allPlayers) {
     var chosenPlayers = [];
 
@@ -441,7 +423,6 @@ function getChosenPlayers(playerIDs, allPlayers) {
             }));
         }
     }
-
 
     return chosenPlayers;
 }
