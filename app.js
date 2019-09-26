@@ -116,7 +116,7 @@ function seedDB() {
 // tests
 
 
-updateDB();
+// updateDB();
 
 seedDB();
 
@@ -190,25 +190,25 @@ function updateDB() {
                     imageURL: imageURL
                 };
 
-                Player.create(newPlayer, function (err, newPlayer) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log("Success!");
-                    }
-                });
-                // await Player.findOneAndUpdate({name: fullName}, {
-                //     price: newPlayer.price,
-                //     points: newPlayer.points
-                // }, function (err, player) {
+                // Player.create(newPlayer, function (err, newPlayer) {
                 //     if (err) {
                 //         console.log(err);
                 //     } else {
-                //         // player = newPlayer;
-                //         // console.log(player);
-                //         // player.save();
+                //         console.log("Success!");
                 //     }
                 // });
+                await Player.findOneAndUpdate({name: fullName}, {
+                    price: newPlayer.price,
+                    points: newPlayer.points
+                }, function (err, player) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        // player = newPlayer;
+                        // console.log(player);
+                        // player.save();
+                    }
+                });
                 // Player.findOneAndUpdate({name: fullName}, newPlayer);
                 // console.log(newPlayer.name,newPlayer.points);
                 // console.log("Success!");

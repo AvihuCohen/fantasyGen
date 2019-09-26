@@ -1,5 +1,5 @@
 var socket;
-socket = io.connect("http://localhost:3000");
+socket = io.connect("window.location.hostname");
 
 var lastSelected;
 var lastPrice = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
