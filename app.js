@@ -28,7 +28,7 @@ var indexRoute = require("./routes/index"),
     playersRoute = require("./routes/players"),
     teamRoute = require("./routes/team");
 
-var currentUser;
+var  currentUser;
 
 mongoose.connect("mongodb://localhost:27017/football_fantasy_test", {useNewUrlParser: true, useFindAndModify: false});
 app.use(bodyParser.urlencoded({extended: true}));
