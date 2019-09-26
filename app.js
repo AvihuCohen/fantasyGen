@@ -116,7 +116,7 @@ function seedDB() {
 // tests
 
 
-updateDB();
+// updateDB();
 
 seedDB();
 
