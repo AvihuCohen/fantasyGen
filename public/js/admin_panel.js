@@ -1,5 +1,12 @@
 var socket;
-socket = io.connect(window.location.hostname);
+var url;
+
+if(window.location.hostname === "localhost"){
+    url = "http://localhost:3000";
+} else {
+    url = window.location.hostname;
+}
+socket = io.connect(url);
 
 $("#user_makeAdmin").on('click', function () {
     var userSelect = $("#usersList");
