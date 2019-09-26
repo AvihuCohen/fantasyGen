@@ -1,5 +1,13 @@
 var socket;
-socket = io.connect(window.location.hostname);
+var url;
+
+if(window.location.hostname === "localhost"){
+    url = "http://localhost:3000";
+} else {
+    url = window.location.hostname;
+}
+socket = io.connect(url);
+console.log(url);
 
 var lastSelected;
 var lastPrice = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -11,7 +19,6 @@ function initializeLastPrices(){
 
     for (let i = 0; i < priceSpans.length ; i++) {
         lastPrice[i] = Number(priceSpans[i].textContent);
-        console.log(lastPrice[i]);
     }
 }
 
