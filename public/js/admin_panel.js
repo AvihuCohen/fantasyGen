@@ -1,5 +1,5 @@
 var socket;
-socket = io.connect("window.location.hostname");
+socket = io.connect(window.location.hostname);
 
 $("#user_makeAdmin").on('click', function () {
     var userSelect = $("#usersList");
