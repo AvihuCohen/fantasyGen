@@ -6,8 +6,9 @@ var express = require("express"),
     flash = require("connect-flash"),
     puppeteer = require('puppeteer'),
     schedule = require('node-schedule'),
-    expressSanitizer = require("express-sanitizer"),
     middleware = require("./middleware"),
+    expressSanitizer = require("express-sanitizer"),
+
 
 
 // AUTH
@@ -238,6 +239,7 @@ function updateDB() {
         await browser.close();
     })();
 }
+
 
 function delay() {
     return new Promise(resolve => setTimeout(resolve, 50));
