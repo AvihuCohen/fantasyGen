@@ -1,6 +1,6 @@
 <% include partials/header %>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
 
 <!-- 	name: String,
 	team: String,
@@ -9,45 +9,122 @@
 	points: Number,
 	imageURL: String -->
 
-<table class="table table-striped playersTable">
-  <thead>
-    <tr>
-      <th scope="col">Full Name</th>
-      <th scope="col">Position</th>
-      <th scope="col">Team</th>
-      <th scope="col">Price</th>
-      <th scope="col">Total Points</th>
-    </tr>
-  </thead>
-  <tbody>
 
 
-<% players.forEach(function(player){ %>
-	<tr>
-		<td>
-			<img class="playerImage" src="<%= player.imageURL %>"> <%= player.name %>
-		</td>
+<div class="container ">
 
-		<td class="align-middle">
-				<%= player.position %> 
-		</td>
-		<td class="align-middle">
-			<%= player.team %> 
-		</td>
+    <div class="row ">
+        <div class="col-12 d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    <button id="previousButton" class="btn btn-primary mr-1">Previous</button>
+                    <li class="page-item"><a class="page-link" href="#"><span id="currentPage">1</span></a></li>
+                    <li class="page-item"><a class="page-link" href="#">-</a></li>
+                    <li class="page-item"><a class="page-link" href="#"><%= (players.length / 15) %></a></li>
+                    <button id="nextButton" class="btn btn-primary ml-1">Next</button>
+                </ul>
+            </nav>
+        </div>
 
-		<td class="align-middle">
-			<%= player.price %> 
-		</td>
-		<td class="align-middle">
-			<%= player.points %>
-		</td>
-	</tr>
+        <div class="col-12">
+            <table class="table table-striped playersTable">
+                <thead>
+                <tr>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total Points</th>
+                </tr>
+                </thead>
+                <tbody>
 
-<% }); %>
+                <% for(var i = 0; i < 15; i++){ %>
 
-  </tbody>
-</table>
+                    <tr>
+                        <td>
+                            <img class="playerImage" id="playerImage<%= i %>" src="<%= players[i].imageURL%>">
+                            <span id="playerName<%= i %>"> <%= players[i].name%></span>
+                        </td>
 
+                        <td id="playerPosition<%= i %>">
+                            <%= players[i].position%>
+
+                        </td>
+                        <td id="playerTeam<%= i %>">
+                            <%= players[i].team%>
+                        </td>
+
+                        <td id="playerPrice<%= i %>">
+                            <%= players[i].price%>
+                        </td>
+                        <td id="playerPoints<%= i %>">
+                            <%= players[i].points%>
+                        </td>
+                    </tr>
+
+                <% } %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+    <!--<nav aria-label="Page navigation example">-->
+    <!--<ul class="pagination">-->
+    <!--<li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">1</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">2</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">3</a></li>-->
+    <!--<li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+    <!--</ul>-->
+    <!--</nav>-->
+
+
+</div>
+
+<!--<table class="table table-striped playersTable">-->
+    <!--<thead>-->
+    <!--<tr>-->
+        <!--<th scope="col">Full Name</th>-->
+        <!--<th scope="col">Position</th>-->
+        <!--<th scope="col">Team</th>-->
+        <!--<th scope="col">Price</th>-->
+        <!--<th scope="col">Total Points</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+
+    <!--<% players.forEach(function(player){ %>-->
+        <!--<tr>-->
+            <!--<td>-->
+                <!--<img class="playerImage" src="<%= player.imageURL %>"> <%= player.name %>-->
+            <!--</td>-->
+
+            <!--<td class="align-middle">-->
+                <!--<%= player.position %>-->
+            <!--</td>-->
+            <!--<td class="align-middle">-->
+                <!--<%= player.team %>-->
+            <!--</td>-->
+
+            <!--<td class="align-middle">-->
+                <!--<%= player.price %>-->
+            <!--</td>-->
+            <!--<td class="align-middle">-->
+                <!--<%= player.points %>-->
+            <!--</td>-->
+        <!--</tr>-->
+
+    <!--<% }); %>-->
+
+    <!--</tbody>-->
+<!--</table>-->
+
+<script type="text/javascript" src="/js/playerstas.js"></script>
 
 
 <% include partials/footer %>
