@@ -198,25 +198,25 @@ function updateDB() {
                     imageURL: imageURL
                 };
 
-                // Player.create(newPlayer, function (err, newPlayer) {
-                //     if (err) {
-                //         console.log(err);
-                //     } else {
-                //         console.log("Success!");
-                //     }
-                // });
-                await Player.findOneAndUpdate({name: fullName}, {
-                    price: newPlayer.price,
-                    points: newPlayer.points
-                }, function (err, player) {
+                Player.create(newPlayer, function (err, newPlayer) {
                     if (err) {
                         console.log(err);
                     } else {
-                        // player = newPlayer;
-                        // console.log(player);
-                        // player.save();
+                        console.log("Success!");
                     }
                 });
+                // await Player.findOneAndUpdate({name: fullName}, {
+                //     price: newPlayer.price,
+                //     points: newPlayer.points
+                // }, function (err, player) {
+                //     if (err) {
+                //         console.log(err);
+                //     } else {
+                //         // player = newPlayer;
+                //         // console.log(player);
+                //         // player.save();
+                //     }
+                // });
                 // Player.findOneAndUpdate({name: fullName}, newPlayer);
                 // console.log(newPlayer.name,newPlayer.points);
                 // console.log("Success!");
@@ -273,6 +273,20 @@ io.sockets.on("connection", function (Socket) {
                 user.admin = 1;
                 user.save();
                 io.sockets.emit('user_isAdmin');
+            }
+        });
+
+    });
+});
+
+
+io.sockets.on("connection", function (Socket) {
+    Socket.on('get_all_players', function () {
+        Player.find({}, function (err, players) {
+            if (err) {
+                console.log(err);
+            } else {
+                io.sockets.emit('get_all_players', players);
             }
         });
 
