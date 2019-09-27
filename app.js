@@ -10,7 +10,6 @@ var express = require("express"),
     expressSanitizer = require("express-sanitizer"),
 
 
-
 // AUTH
     passport = require("passport"),
     localStrategy = require("passport-local"),
@@ -278,6 +277,7 @@ io.sockets.on("connection", function (Socket) {
             if (err) {
                 console.log(err);
             } else {
+                players = players.sort((a, b) => (a.points > b.points) ? -1 : 1);
                 io.sockets.emit('get_all_players', players);
             }
         });
