@@ -1,16 +1,12 @@
 var socket;
 var url;
 
-
 if(window.location.hostname === "localhost"){
     url = "http://localhost:3000";
 } else {
     url = window.location.hostname;
 }
-
 socket = io.connect(url);
-
-console.log("Connect111");
 
 var allPlayers;
 var pagesOfPlayers = [];

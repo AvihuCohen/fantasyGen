@@ -31,7 +31,7 @@ router.get("/edit", middleware.isLoggedIn, middleware.userHasTeam, function (req
         } else {
             allPlayers = allPlayers.sort((a, b) => (a.points > b.points) ? -1 : 1);
             var teamIDs = res.locals.currentUser.team.players;
-            var scrambledTeam = getChosenPlayers(teamIDs, allPlayers);
+            var scrambledTeam = middleware.getChosenPlayers(teamIDs, allPlayers);
             var teamByPositions = seperatePlayersToPositions(scrambledTeam);
 
 
@@ -156,7 +156,7 @@ function generateLineup(req, res) {
     getAllPlayersASync().then(function (allPlayers) {
         allPlayers = allPlayers.sort((a, b) => (a.points > b.points) ? -1 : 1);
         var teamIds = res.locals.currentUser.team.players;
-        var team = getChosenPlayers(teamIds, allPlayers);
+        var team = middleware.getChosenPlayers(teamIds, allPlayers);
         var generatedLineup = getUltimateLineup(team);
 
         res.render("team/lineup", {lineup: generatedLineup});
@@ -426,7 +426,6 @@ async function getAllPlayersASync() {
     return await Player.find({}, {});
 }
 
-
 function getValid15(req, res) {
     currentIndexes = {
         Goalkeepers: 2,
@@ -447,7 +446,7 @@ function getValid15(req, res) {
         teamIDs = getPlayerIDs(team);
         //    no duplicates.
         // 4. validate team:
-        var teamValidationResults = validateTeamAndGetResults(teamIDs, allPlayers);
+        var teamValidationResults = middleware.validateTeamAndGetResults(teamIDs, allPlayers);
 
         while (!teamValidationResults.valid) {
             if (teamValidationResults.err.moreThanThree && teamValidationResults.err.exceededBudget.exceeded) {
@@ -463,7 +462,7 @@ function getValid15(req, res) {
             }
 
             teamIDs = getPlayerIDs(team);
-            teamValidationResults = validateTeamAndGetResults(teamIDs, allPlayers);
+            teamValidationResults = middleware.validateTeamAndGetResults(teamIDs, allPlayers);
         }
 
         addTeamToUser(teamIDs, teamValidationResults.err.exceededBudget.moneyLeft, res);
@@ -471,121 +470,6 @@ function getValid15(req, res) {
         res.redirect("/team");
     });
 
-}
-
-
-/////////////////////////////////////////////////////////////////////////
-
-//// The next 6 methoda are for checking if team is valid  /////
-
-function validateTeamAndGetResults(playerIDs, allPlayers) {
-    var chosenPlayers = getChosenPlayers(playerIDs, allPlayers);
-
-    var fullteam = checkFullteam(playerIDs);
-    var duplicatePlayers = checkPlayerDuplications(playerIDs);
-    var moreThanThreeFromSameTeam = checkMoreThanThreeFromSameTeam(chosenPlayers);
-    var exceededBudget = checkExceededBudget(chosenPlayers);
-
-    var res = getValidationResults(fullteam, duplicatePlayers, moreThanThreeFromSameTeam, exceededBudget);
-
-    return res;
-}
-
-function getValidationResults(fullteam, duplicatePlayers, moreThanThreeFromSameTeam, exceededBudget) {
-    var isValid = fullteam && !duplicatePlayers && !moreThanThreeFromSameTeam && !exceededBudget.exceeded;
-
-
-    var res = {
-        valid: isValid,
-        err: {
-            fullteam: fullteam,
-            playerDuplicate: duplicatePlayers,
-            moreThanThree: moreThanThreeFromSameTeam,
-            exceededBudget: {
-                exceeded: exceededBudget.exceeded,
-                moneyLeft: exceededBudget.moneyLeft
-            }
-
-        }
-    };
-
-    return res;
-}
-
-
-//// The next 6 methoda are for checking if team is valid  /////
-
-function checkFullteam(playerIDs) {
-    var fullteam = true;
-    playerIDs.forEach((id) => {
-        if (id === "0") {
-            fullteam = false;
-        }
-    });
-    return fullteam;
-}
-
-function checkPlayerDuplications(playerIDs) {
-
-    var validPlayerIds = [];
-
-    playerIDs.forEach((id) => {
-        if (id != "0") {
-            validPlayerIds.push(id);
-        }
-    });
-
-    let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
-
-    var duplicates = findDuplicates(validPlayerIds);
-    // All duplicates
-    if (duplicates.length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function checkMoreThanThreeFromSameTeam(chosenPlayers) {
-    var moreThanThreeFromSameTeam = false;
-    var teamsBucket = [];
-
-    chosenPlayers.forEach((player) => {
-
-        if (!teamsBucket[player.team]) {
-            teamsBucket[player.team] = 1;
-        } else {
-            teamsBucket[player.team]++;
-
-            if (teamsBucket[player.team] > 3) {
-                moreThanThreeFromSameTeam = true;
-            }
-
-        }
-    });
-
-    return moreThanThreeFromSameTeam;
-}
-
-function checkExceededBudget(chosenPlayers) {
-
-    // TODO FIX MATH.ROUND MONEYLEFT
-    var budgetExceeded = {
-        exceeded: false,
-        moneyLeft: 0
-    };
-    var pricesSum = 0;
-
-    chosenPlayers.forEach((player) => {
-        pricesSum += player.price;
-    });
-
-    if (pricesSum > 100) {
-        budgetExceeded.exceeded = true;
-    }
-    budgetExceeded.moneyLeft = (100 - pricesSum);
-
-    return budgetExceeded;
 }
 
 function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
@@ -598,20 +482,6 @@ function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
     currentUser.save();
 }
 
-function getChosenPlayers(playerIDs, allPlayers) {
-    var chosenPlayers = [];
-
-    for (let i = 0; i < playerIDs.length; i++) {
-        if (playerIDs[i] !== "0") {
-            chosenPlayers.push(allPlayers.find(function (player) {
-                return (player._id == playerIDs[i]);
-            }));
-        }
-    }
-
-
-    return chosenPlayers;
-}
 
 
 module.exports = router;
