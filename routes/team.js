@@ -49,6 +49,11 @@ router.get("/generate15", middleware.isLoggedIn, function (req, res) {
     getValid15(req, res);
 });
 
+
+
+
+// -----------------------------------------------------------------------------------------
+
 var amountOfGKs = 2;
 var amountOfDEFs = 5;
 var amountOfMIDs = 5;
