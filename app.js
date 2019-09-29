@@ -192,6 +192,7 @@ function updateDB() {
                     imageURL: imageURL
                 };
 
+                // Create DB
                 Player.create(newPlayer, function (err, newPlayer) {
                     if (err) {
                         console.log(err);
@@ -199,6 +200,9 @@ function updateDB() {
                         console.log("Success!");
                     }
                 });
+
+                // Update DB
+
                 // await Player.findOneAndUpdate({name: fullName}, {
                 //     price: newPlayer.price,
                 //     points: newPlayer.points
