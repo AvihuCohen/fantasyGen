@@ -55,14 +55,17 @@ middlewareObj.isAdmin = function(req, res, next){
 
 middlewareObj.getChosenPlayers = function(playerIDs, allPlayers) {
 	var chosenPlayers = [];
-
+	// console.log("PLAYER ID:",playerIDs.length);
 	for (let i = 0; i < playerIDs.length; i++) {
 		if (playerIDs[i] !== "0") {
+			// console.log("=====");
 			chosenPlayers.push(allPlayers.find(function (player) {
 				return (player._id == playerIDs[i]);
 			}));
 		}
 	}
+
+	// console.log("cohsen:", chosenPlayers.length);
 
 	return chosenPlayers;
 }
@@ -82,8 +85,11 @@ middlewareObj.checkExceededBudget = function(chosenPlayers) {
 
 	if (pricesSum > 100) {
 		budgetExceeded.exceeded = true;
+
 	}
 	budgetExceeded.moneyLeft = (100 - pricesSum);
+
+	console.log("moneyleft:",budgetExceeded.moneyLeft);
 
 	return budgetExceeded;
 }

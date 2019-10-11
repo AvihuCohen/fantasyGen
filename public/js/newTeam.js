@@ -1,7 +1,7 @@
 var socket;
 var url;
 
-if(window.location.hostname === "localhost"){
+if (window.location.hostname === "localhost") {
     url = "http://localhost:3000";
 } else {
     url = window.location.hostname;
@@ -13,10 +13,10 @@ var lastPrice = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 initializeLastPrices();
 
-function initializeLastPrices(){
+function initializeLastPrices() {
     var priceSpans = $(".priceSpan");
 
-    for (let i = 0; i < priceSpans.length ; i++) {
+    for (let i = 0; i < priceSpans.length; i++) {
         lastPrice[i] = Number(priceSpans[i].textContent);
     }
 }
@@ -26,6 +26,35 @@ $('select').on('change', function () {
     // console.log(data);
     lastSelected = $(this);
     socket.emit("get_player_by_id", data);
+});
+
+$('#autofillButton').on('click', function () {
+    var playerIDs = getSelectedPlayerIDs();
+    var numOfSelectedPlayers = 0;
+
+    playerIDs.forEach(function (player) {
+        if (player != "0") {
+            numOfSelectedPlayers++;
+        }
+    });
+    if (numOfSelectedPlayers <= 3) {
+        const form = document.createElement('form');
+        form.method = "POST";
+        form.action = "/team/autofill";
+
+        const hiddenField = document.createElement('input');
+        hiddenField.type = 'hidden';
+        hiddenField.name = "team";
+        hiddenField.value = playerIDs;
+
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+    } else {
+        alert("You can choose up to 3 players to use Auto-fill.");
+        window.location.replace("/team/edit");
+    }
 });
 
 function getSelectedPlayerIDs() {

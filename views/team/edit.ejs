@@ -21,7 +21,7 @@ var imageSrc;
         <div class="row align-items-center">
             <div class="col-3">
                 Total funds: <span id="totalFunds">
-                    <% if(hasTeam) {%>
+                    <% if(hasTeam) { %>
                         <%= currentUser.team.moneyLeft %>
                     <% } else { %>
                         100
@@ -32,6 +32,9 @@ var imageSrc;
                 Please enter your current team from EPL Fantasy League
             </div>
             <div class="col-3 text-center">
+                <% if(!currentUser.hasTeam) { %>
+                    <button id="autofillButton" class="btn btn-info mr-2">Auto fill</button>
+                <% } %>
                 <button id="sumbitTeamButton" class="btn btn-danger">Submit</button>
             </div>
         </div>
@@ -40,112 +43,114 @@ var imageSrc;
 
 <div class="row">
 
-<div class="col-9 px-0">
+    <div class="col-9 px-0">
 
-<div class="container newTeamContainer py-4 px-0">
+        <div class="container newTeamContainer py-4 px-0">
 
-    <% for(var j = 0; j < 4; j++) { %>
+            <% for(var j = 0; j < 4; j++) { %>
 
-        <% if (j === 3) {
-            amountOfCurrentPos = amountOfGKs;
-            currentPos = "Goalkeeper";
-            if(hasTeam){
-                currentPositionPlayers = team.GKs;
-            }
+                <% if (j === 3) {
+                    amountOfCurrentPos = amountOfGKs;
+                    currentPos = "Goalkeeper";
+                    if (hasTeam) {
+                        currentPositionPlayers = team.GKs;
+                    }
 
-        } else if (j === 2) {
-            amountOfCurrentPos = amountOfDEFs;
-            currentPos = "Defender";
-            if(hasTeam){
-                currentPositionPlayers = team.DEFs;
-            }
+                } else if (j === 2) {
+                    amountOfCurrentPos = amountOfDEFs;
+                    currentPos = "Defender";
+                    if (hasTeam) {
+                        currentPositionPlayers = team.DEFs;
+                    }
 
-        } else if (j === 1) {
-            amountOfCurrentPos = amountOfMIDs;
-            currentPos = "Midfielder";
-            if(hasTeam){
-                currentPositionPlayers = team.MIDs;
-            }
+                } else if (j === 1) {
+                    amountOfCurrentPos = amountOfMIDs;
+                    currentPos = "Midfielder";
+                    if (hasTeam) {
+                        currentPositionPlayers = team.MIDs;
+                    }
 
-        } else if (j === 0) {
-            amountOfCurrentPos = amountOfATKs;
-            currentPos = "Forward";
-            if(hasTeam){
-                currentPositionPlayers = team.ATKs;
-            }
-        } %>
+                } else if (j === 0) {
+                    amountOfCurrentPos = amountOfATKs;
+                    currentPos = "Forward";
+                    if (hasTeam) {
+                        currentPositionPlayers = team.ATKs;
+                    }
+                } %>
 
-        <div class="row justify-content-center pb-3">
+                <div class="row justify-content-center pb-3">
 
-            <% for(var i = 0; i < amountOfCurrentPos; i++) { %>
-                <div class="col-1 mx-4">
-                    <div id="card<%= counter %>" class="card playerCard">
-                        <div class="card-body text-center p-1">
-                            <% if(hasTeam) { %>
-                                <% imageSrc = currentPositionPlayers[i].imageURL %>
-                            <% } else { %>
-                                    <% imageSrc = "https://cityoflavon.com/wp-content/uploads/blank-profile.png"; %>
-                                <% } %>
-                            <img class="playerCardImage"
-                                 src="<%= imageSrc %>"
-                                 class="card-img-top">
-                            <h5 class="card-title"><span class="nameSpan">
+                    <% for(var i = 0; i < amountOfCurrentPos; i++) { %>
+                        <div class="col-1 mx-4">
+                            <div id="card<%= counter %>" class="card playerCard">
+                                <div class="card-body text-center p-1">
                                     <% if(hasTeam) { %>
-                                        <% if (currentPositionPlayers[i].name.length > 15) { %>
-                                            <% var shortName = currentPositionPlayers[i].name.slice(0,13) + ".."; %>
-                                            <%= shortName %>
-                                        <% } else { %>
-                                            <%= currentPositionPlayers[i].name %>
-                                        <% } %>
+                                        <% imageSrc = currentPositionPlayers[i].imageURL %>
                                     <% } else { %>
-                                        ???
+                                        <% imageSrc = "https://cityoflavon.com/wp-content/uploads/blank-profile.png"; %>
                                     <% } %>
-                                </span></h5>
-                            <p class="card-text"><span class="positionSpan">
+                                    <img class="playerCardImage"
+                                         src="<%= imageSrc %>"
+                                         class="card-img-top">
+                                    <h5 class="card-title"><span class="nameSpan">
+                                            <% if(hasTeam) { %>
+                                                <% if (currentPositionPlayers[i].name.length > 15) { %>
+                                                    <% var shortName = currentPositionPlayers[i].name.slice(0, 13) + ".."; %>
+                                                    <%= shortName %>
+                                                <% } else { %>
+                                                    <%= currentPositionPlayers[i].name %>
+                                                <% } %>
+                                            <% } else { %>
+                                                ???
+                                            <% } %>
+                                        </span></h5>
+                                    <p class="card-text"><span class="positionSpan">
                                     <%= currentPos %>
                                 </span></p>
-                            <p class="card-text">Points: <span class="pointsSpan">
-                                    <% if(hasTeam) { %>
-                                        <%= currentPositionPlayers[i].points %>
-                                    <% } else { %>
-                                        ???
-                                    <% } %>
-                                </span></p>
-                            <p class="card-text">Price: <span class="priceSpan">
-                                    <% if(hasTeam) { %>
-                                        <%= currentPositionPlayers[i].price %>
-                                    <% } else { %>
-                                        0
-                                    <% } %>
-                                </span></p>
-                            <select class="dropdownPlayers <%= currentPos %>" name="select<%= counter %>" id="select<%= counter %>">
-                            <option value="0" selected disabled></option>
-                                <% players.forEach(function(player){ %>
-                                    <% if(player.position === currentPos) { %>
-                                        <% if(hasTeam && player._id === currentPositionPlayers[i]._id ) { %>
-                                            <option value="<%= player._id %>" selected ><%= player.name %></option>
-                                    <% } else { %>
-                                                <option value="<%= player._id %>"><%= player.name %></option>
+                                    <p class="card-text">Points: <span class="pointsSpan">
+                                            <% if(hasTeam) { %>
+                                                <%= currentPositionPlayers[i].points %>
+                                            <% } else { %>
+                                                ???
+                                            <% } %>
+                                        </span></p>
+                                    <p class="card-text">Price: <span class="priceSpan">
+                                            <% if(hasTeam) { %>
+                                                <%= currentPositionPlayers[i].price %>
+                                            <% } else { %>
+                                                0
+                                            <% } %>
+                                        </span></p>
+                                    <select class="dropdownPlayers <%= currentPos %>" name="select<%= counter %>"
+                                            id="select<%= counter %>">
+                                        <option value="0" selected disabled></option>
+                                        <% players.forEach(function(player){ %>
+                                            <% if(player.position === currentPos) { %>
+                                                <% if(hasTeam && player._id === currentPositionPlayers[i]._id ) { %>
+                                                    <option value="<%= player._id %>"
+                                                            selected><%= player.name %></option>
+                                                <% } else { %>
+                                                    <option value="<%= player._id %>"><%= player.name %></option>
+                                                <% } %>
+
                                             <% } %>
 
-                                    <% } %>
+                                        <% }) %>
 
-                                <% }) %>
-
-                            </select>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <% counter++; %>
+
+                    <% } %>
+
                 </div>
-                <% counter++; %>
 
             <% } %>
 
         </div>
-
-    <% } %>
-
-</div>
-</div>
+    </div>
     <div id="errorBar" class="col-3 px-0">
         <div id="errorDisplay" class="list-group">
             <li class="list-group-item list-group-item-primary">Fix the following errors to submit:</li>
@@ -166,7 +171,6 @@ var imageSrc;
     </div>
 
 </div>
-
 
 
 <!--<dialog>-->

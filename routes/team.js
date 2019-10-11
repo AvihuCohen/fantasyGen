@@ -34,6 +34,8 @@ router.get("/edit", middleware.isLoggedIn, middleware.userHasTeam, function (req
             var scrambledTeam = middleware.getChosenPlayers(teamIDs, allPlayers);
             var teamByPositions = seperatePlayersToPositions(scrambledTeam);
 
+            console.log(teamIDs);
+            console.log(teamByPositions);
 
             res.render("team/edit", {players: allPlayers, team: teamByPositions, hasTeam: true});
         }
@@ -46,10 +48,13 @@ router.get("/generate11", middleware.isLoggedIn, middleware.userHasTeam, functio
 });
 
 router.get("/generate15", middleware.isLoggedIn, function (req, res) {
-    getValid15(req, res);
+    getValid15(req, res, []);
 });
 
-
+router.post("/autofill", middleware.isLoggedIn, function (req, res) {
+    var playerIDs = req.body.team.split(',');
+    getValid15(req, res, playerIDs);
+});
 
 
 // -----------------------------------------------------------------------------------------
@@ -196,20 +201,92 @@ function seperatePlayersToPositions(allPlayers) {
     return seperatedPlayers;
 }
 
-function getInitialTeamByPoints(allPlayersByPositions) {
+function getAmountsToAdd(currentTeam) {
+    var amounts = {
+        GKs: 0,
+        DEFs: 0,
+        MIDs: 0,
+        ATKs: 0
+    };
+
+    currentTeam.forEach(function (player) {
+        if (player.position === "Goalkeeper") {
+            amounts.GKs++;
+        } else if (player.position === "Defender") {
+            amounts.DEFs++;
+        } else if (player.position === "Midfielder") {
+            amounts.MIDs++;
+        } else if (player.position === "Forward") {
+            amounts.ATKs++;
+        }
+    });
+
+    amounts.GKs = amountOfGKs - amounts.GKs;
+    amounts.DEFs = amountOfDEFs - amounts.DEFs;
+    amounts.MIDs = amountOfMIDs - amounts.MIDs;
+    amounts.ATKs = amountOfATKs - amounts.ATKs;
+
+    return amounts;
+}
+
+function getInitialTeamByPoints(allPlayersByPositions, currentTeam) {
+
+
     var team = [];
-    for (let i = 0; i < amountOfGKs; i++) {
-        team.push(allPlayersByPositions.GKs[i]);
+    var amounts = getAmountsToAdd(currentTeam);
+    // console.log(amounts);
+
+    currentTeam.forEach(function (player) {
+        team.push(player);
+    });
+
+    var i = 0;
+
+    while (amounts.GKs != 0) {
+        if (!team.find(function (player) {
+            return (player._id == allPlayersByPositions.GKs[i]._id);
+        })) {
+            team.push(allPlayersByPositions.GKs[i]);
+            amounts.GKs--;
+        }
+        i++;
     }
-    for (let i = 0; i < amountOfDEFs; i++) {
-        team.push(allPlayersByPositions.DEFs[i]);
+
+    i = 0;
+
+    while (amounts.DEFs != 0) {
+        if (!team.find(function (player) {
+            return (player._id == allPlayersByPositions.DEFs[i]._id);
+        })) {
+            team.push(allPlayersByPositions.DEFs[i]);
+            amounts.DEFs--;
+        }
+        i++;
     }
-    for (let i = 0; i < amountOfMIDs; i++) {
-        team.push(allPlayersByPositions.MIDs[i]);
+
+    i = 0;
+    while (amounts.MIDs != 0) {
+        if (!team.find(function (player) {
+            return (player._id == allPlayersByPositions.MIDs[i]._id);
+        })) {
+            team.push(allPlayersByPositions.MIDs[i]);
+            amounts.MIDs--;
+        }
+        i++;
     }
-    for (let i = 0; i < amountOfATKs; i++) {
-        team.push(allPlayersByPositions.ATKs[i]);
+    i = 0;
+    while (amounts.ATKs != 0) {
+        if (!team.find(function (player) {
+            return (player._id == allPlayersByPositions.ATKs[i]._id);
+        })) {
+            team.push(allPlayersByPositions.ATKs[i]);
+            amounts.ATKs--;
+        }
+        i++;
     }
+
+
+    console.log(team, team.length);
 
     return team;
 }
@@ -272,7 +349,7 @@ function getPlayersFromPlayerPosition(position, allPlayersByPositions) {
     return playersFromNeededPosition;
 }
 
-function getCheaperAndDifferentTeamPlayer(playerToReplace, allPlayersByPositions) {
+function getCheaperAndDifferentTeamPlayer(playerToReplace, allPlayersByPositions, team) {
     var cheaperAndDifferentTeamPlayer;
     var allPlayersFromNeededPosition = getPlayersFromPlayerPosition(playerToReplace.position, allPlayersByPositions);
     var validReplacement = false;
@@ -281,11 +358,29 @@ function getCheaperAndDifferentTeamPlayer(playerToReplace, allPlayersByPositions
     while (!validReplacement) {
         var neededIndex = currentIndexes[stringForPositionIndex];
         cheaperAndDifferentTeamPlayer = allPlayersFromNeededPosition[neededIndex];
-        validReplacement = cheaperAndDifferentTeamPlayer.price < playerToReplace.price &&
-            cheaperAndDifferentTeamPlayer.team !== playerToReplace.team;
-        currentIndexes[stringForPositionIndex]++;
-        playerToReplace = cheaperAndDifferentTeamPlayer;
+        console.log("1.", cheaperAndDifferentTeamPlayer);
+        console.log("2.", playerToReplace);
+        if (cheaperAndDifferentTeamPlayer) {
+            validReplacement = cheaperAndDifferentTeamPlayer.price < playerToReplace.price &&
+                cheaperAndDifferentTeamPlayer.team !== playerToReplace.team;
+            currentIndexes[stringForPositionIndex]++;
+            // if (cheaperAndDifferentTeamPlayer.price < playerToReplace.price) {
+            if (cheaperAndDifferentTeamPlayer.price > 4.8 && !team.find(function (player) {
+                return (player._id == cheaperAndDifferentTeamPlayer._id);
+            })) {
+
+                playerToReplace = cheaperAndDifferentTeamPlayer;
+            } else {
+                validReplacement = false;
+            }
+            // }
+        } else {
+            currentIndexes[stringForPositionIndex] = 0;
+        }
+
     }
+
+    console.log("-------------------------------------");
 
     return cheaperAndDifferentTeamPlayer;
 
@@ -305,7 +400,7 @@ function swapPlayers(team, playerToReplace, newPlayerToImprove) {
     return res;
 }
 
-function improveTeamDuplicatesAndLowerPrice(team, allPlayersByPositions) {
+function improveTeamDuplicatesAndLowerPrice(team, allPlayersByPositions, playerIDs) {
     // 1. More than 3 from same team AND too expensive
     //			1.1 find the team with more than 3 players.
     //			1.2 choose one of the players from that team
@@ -316,8 +411,8 @@ function improveTeamDuplicatesAndLowerPrice(team, allPlayersByPositions) {
 
     var teamWIthMoreThanThreePlayers = getTeamWithMoreThanThreePlayers(team);
     var playersFromTheSameTeam = getAllPlayersFromSpecificTeam(team, teamWIthMoreThanThreePlayers);
-    var playerToReplace = getPlayerWithLowestPointsPriceRatio(playersFromTheSameTeam);
-    var newPlayerToImprove = getCheaperAndDifferentTeamPlayer(playerToReplace, allPlayersByPositions);
+    var playerToReplace = getPlayerWithLowestPointsPriceRatio(playersFromTheSameTeam, playerIDs);
+    var newPlayerToImprove = getCheaperAndDifferentTeamPlayer(playerToReplace, allPlayersByPositions, team);
     // 1. replace the player with the LOWEST Points/price ratio, with a cheaper player
 
     var finalTeam = swapPlayers(team, playerToReplace, newPlayerToImprove);
@@ -352,14 +447,20 @@ function getDifferentTeamPlayer(playerToReplace, allPlayersByPositions, team) { 
 
         validReplacement = teamPrice <= 100 &&
             differentTeamPlayer.team !== playerToReplace.team;
-        playerToReplace = differentTeamPlayer;
+        if (differentTeamPlayer.price > 4.8 && !team.find(function (player) {
+            return (player._id == differentTeamPlayer._id);
+        })) {
+            playerToReplace = differentTeamPlayer;
+        } else {
+            validReplacement = false;
+        }
         currentIndexes[stringForPositionIndex]++;
     }
 
     return differentTeamPlayer;
 }
 
-function improveTeamDuplicates(team, allPlayersByPositions) {
+function improveTeamDuplicates(team, allPlayersByPositions, playerIDs) {
     // 1. find the team with more than 3 players.
     // 2. choose one of the players from that team
     // 3. replace it with a player that YOU HAVE MONEY FOR & from DIFFERENT_TEAM & has SAME_POSITION
@@ -369,7 +470,7 @@ function improveTeamDuplicates(team, allPlayersByPositions) {
 
     var teamWIthMoreThanThreePlayers = getTeamWithMoreThanThreePlayers(team);
     var playersFromTheSameTeam = getAllPlayersFromSpecificTeam(team, teamWIthMoreThanThreePlayers);
-    var playerToReplace = getPlayerWithLowestPointsPriceRatio(playersFromTheSameTeam);
+    var playerToReplace = getPlayerWithLowestPointsPriceRatio(playersFromTheSameTeam, playerIDs);
     var newPlayerToImprove = getDifferentTeamPlayer(playerToReplace, allPlayersByPositions, team);
     // 1. replace the player with the LOWEST Points/price ratio, with a cheaper player
 
@@ -380,13 +481,35 @@ function improveTeamDuplicates(team, allPlayersByPositions) {
 
 }
 
-function getPlayerWithLowestPointsPriceRatio(team) {
-    var finalPlayer = team[0];
-    var minPlayerPriceRatio = team[0].points / team[0].price;
+function getPlayerWithLowestPointsPriceRatio(team, playerIDs) {
+    var finalPlayer;
+    var minPlayerPriceRatio;
 
-    for (let i = 1; i < team.length; i++) {
+
+    for (let i = 0; i < team.length; i++) {
+        if (team[i].price > 4.9 && !playerIDs.find(function (player) {
+            return (player == team[i]._id);
+        })) {
+            finalPlayer = team[i];
+            minPlayerPriceRatio = team[i].points / team[i].price;
+            break;
+        }
+    }
+
+
+    for (let i = 0; i < team.length; i++) {
         var currentPlayerRatio = (team[i].points / team[i].price);
-        if (currentPlayerRatio < minPlayerPriceRatio) {
+
+        // if(team[i].name == "Romelu Lukaku"){
+        //     console.log("playerIDs:", playerIDs);
+        //     console.log("team[i].id:", team[i]._id);
+        // }
+
+        if (currentPlayerRatio < minPlayerPriceRatio && team[i].price > 4.9 &&
+            !playerIDs.find(function (player) {
+                return (player == team[i]._id);
+            })) {
+
             minPlayerPriceRatio = currentPlayerRatio;
             finalPlayer = team[i];
         }
@@ -395,7 +518,7 @@ function getPlayerWithLowestPointsPriceRatio(team) {
     return finalPlayer;
 }
 
-function getCheaperPlayerToReplace(playerToReplace, allPlayersByPositions) {
+function getCheaperPlayerToReplace(playerToReplace, allPlayersByPositions, team) {
     var cheaperPlayer;
     var allPlayersFromNeededPosition = getPlayersFromPlayerPosition(playerToReplace.position, allPlayersByPositions);
     var validReplacement = false;
@@ -404,23 +527,38 @@ function getCheaperPlayerToReplace(playerToReplace, allPlayersByPositions) {
     while (!validReplacement) {
         var neededIndex = currentIndexes[stringForPositionIndex];
         cheaperPlayer = allPlayersFromNeededPosition[neededIndex];
-        validReplacement = cheaperPlayer.price < playerToReplace.price;
-        currentIndexes[stringForPositionIndex]++;
-        playerToReplace = cheaperPlayer;
+
+        if (cheaperPlayer) {
+            console.log("Cheaper: ", cheaperPlayer);
+            console.log("Player: ", playerToReplace);
+            validReplacement = cheaperPlayer.price < playerToReplace.price;
+            currentIndexes[stringForPositionIndex]++;
+            //
+            if (cheaperPlayer.price > 4.8 && !team.find(function (player) {
+                return (player._id == cheaperPlayer._id);
+            })) {
+
+                playerToReplace = cheaperPlayer;
+            } else {
+                validReplacement = false;
+            }
+        } else {
+            currentIndexes[stringForPositionIndex] = 0;
+        }
 
     }
 
     return cheaperPlayer;
 }
 
-function improveTeamByLoweringPrice(team, allPlayersByPositions) {
+function improveTeamByLoweringPrice(team, allPlayersByPositions, playerIDs) {
     // 1. replace the player with the LOWEST Points/price ratio, with a cheaper player
 
     //			* make sure to check the new player is not making more than 3 on OTHER team
     //			* make sure no player duplications
 
-    var playerToReplace = getPlayerWithLowestPointsPriceRatio(team);
-    var cheaperPlayer = getCheaperPlayerToReplace(playerToReplace, allPlayersByPositions)
+    var playerToReplace = getPlayerWithLowestPointsPriceRatio(team, playerIDs);
+    var cheaperPlayer = getCheaperPlayerToReplace(playerToReplace, allPlayersByPositions, team)
 
     var finalTeam = swapPlayers(team, playerToReplace, cheaperPlayer);
 
@@ -431,7 +569,7 @@ async function getAllPlayersASync() {
     return await Player.find({}, {});
 }
 
-function getValid15(req, res) {
+function getValid15(req, res, playerIDs) {
     currentIndexes = {
         Goalkeepers: 2,
         Defenders: 5,
@@ -445,25 +583,34 @@ function getValid15(req, res) {
     getAllPlayersASync().then(function (allPlayers) {
         // 2. seperate to different arrays by POSITION
         var allPlayersByPositions = seperatePlayersToPositions(allPlayers);
+        var currentTeam = middleware.getChosenPlayers(playerIDs, allPlayers);
         // 3. generate first team, by points
-        var team = getInitialTeamByPoints(allPlayersByPositions);
+        // console.log(currentTeam);
+        var team = getInitialTeamByPoints(allPlayersByPositions, currentTeam);
+        // console.log("Team:", team);
 
         teamIDs = getPlayerIDs(team);
         //    no duplicates.
         // 4. validate team:
+
         var teamValidationResults = middleware.validateTeamAndGetResults(teamIDs, allPlayers);
 
         while (!teamValidationResults.valid) {
             if (teamValidationResults.err.moreThanThree && teamValidationResults.err.exceededBudget.exceeded) {
                 // console.log("DEBUG cheap AND team");
-                team = improveTeamDuplicatesAndLowerPrice(team, allPlayersByPositions);
+                team = improveTeamDuplicatesAndLowerPrice(team, allPlayersByPositions, playerIDs);
+
+                console.log(" ---------------- 1 ----------------");
             } else if (teamValidationResults.err.moreThanThree) {
                 // console.log("DEBUG TEAM");
+                console.log(" ---------------- 2 ----------------");
 
-                team = improveTeamDuplicates(team, allPlayersByPositions);
+                team = improveTeamDuplicates(team, allPlayersByPositions, playerIDs);
             } else if (teamValidationResults.err.exceededBudget.exceeded) {
                 // console.log("DEBUG PRICE");
-                team = improveTeamByLoweringPrice(team, allPlayersByPositions)
+                console.log(" ---------------- 3 ----------------");
+
+                team = improveTeamByLoweringPrice(team, allPlayersByPositions, playerIDs);
             }
 
             teamIDs = getPlayerIDs(team);
@@ -477,6 +624,7 @@ function getValid15(req, res) {
 
 }
 
+
 function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
     var currentUser = res.locals.currentUser;
     currentUser.hasTeam = 1;
@@ -486,7 +634,6 @@ function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
 
     currentUser.save();
 }
-
 
 
 module.exports = router;

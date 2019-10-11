@@ -316,6 +316,16 @@ io.sockets.on("connection", function (Socket) {
     });
 });
 
+io.sockets.on("connection", function (Socket) {
+    Socket.on('fill_team', function (playerIDs) {
+        getPlayersByIDs().then(function (allPlayers) {
+            var currentTeam = middleware.getChosenPlayers(playerIDs, allPlayers);
+            console.log(currentTeam);
+            getValid15(null,null,currentTeam);
+        });
+    });
+});
+
 function addTeamToUser(playerIDs, moneyLeftAfterPurchase, res) {
     // var currentUser = res.locals.currentUser;
     currentUser.hasTeam = 1;

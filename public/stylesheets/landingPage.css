@@ -4,6 +4,7 @@ body{
 	background-position: top;
 	background-position: 0 -10%;
 	background-repeat: repeat-y;
+
 }
 
 .landingRow{
@@ -14,6 +15,9 @@ body{
 	background-color: rgb(200,200,200,0.75);
 	background-size: 60%;
 	background-position: center;
+
+	font-family: 'Arvo', serif;
+
 }
 
 .articlesContainer{
@@ -53,6 +57,7 @@ body{
 	border-radius: 3rem;
 	border-top-left-radius: 1.5rem;
 	border-top-right-radius: 1.5rem;
+	opacity: 2;
 	opacity: 2;
 }
 
